@@ -25,3 +25,5 @@ volcamp_bot-*.tar
 
 # Temporary files for e.g. tests
 /tmp
+
+.formatter.exs
