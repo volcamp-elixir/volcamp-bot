@@ -1,6 +1,10 @@
 # Volcamp
 
-**TODO: Add description**
+## External Dependencies
+```shell
+npm i -g movie-trailer
+pip install --upgrade --user youtube_dl
+```
 
 ## Installation
 
