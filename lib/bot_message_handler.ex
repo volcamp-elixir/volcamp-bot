@@ -8,9 +8,9 @@ defmodule Volcamp.Bot.MessageHandler do
 
   def handle_message("action", chat_id) do
 
-    get_and_send_photo(chat_id)
+    spawn(fn  -> get_and_send_photo(chat_id) end)
 
-    "Voici le film que je peux te proposer"
+    "Je viens de lancer un super algo pour te trouver le meilleur film"
   end
 
   def handle_message(_, _) do
