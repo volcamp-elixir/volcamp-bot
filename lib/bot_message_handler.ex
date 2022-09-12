@@ -21,7 +21,7 @@ defmodule Volcamp.Bot.MessageHandler do
     films = Film.Discover.get_films_list_by_genre("action", 3)
 
     films
-    |> Enum.map(fn film ->
+    |> Stream.map(fn film ->
       photo_url = Film.Cover.get_cover(film)
       {film, photo_url}
     end)
