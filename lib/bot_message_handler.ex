@@ -10,7 +10,7 @@ defmodule Volcamp.Bot.MessageHandler do
 
     spawn(fn  -> get_and_send_photo(chat_id) end)
 
-    "Je viens de lancer un super algo pour te trouver le meilleur film"
+    "Je viens de lancer un super algo pour te trouver les 3 meilleurs films"
   end
 
   def handle_message(_, _) do
@@ -21,9 +21,11 @@ defmodule Volcamp.Bot.MessageHandler do
   def get_and_send_photo(chat_id) do
     token = Application.get_env(:volcamp_bot, :token)
 
-    [ film ] = Film.Discover.get_films_list_by_genre("action", 1)
-    photo_url = Film.Cover.get_cover(film)
+    films = Film.Discover.get_films_list_by_genre("action", 3)
+    films |> Enum.map(fn film ->
+      photo_url = Film.Cover.get_cover(film)
 
-    Telegram.Api.request(token, "sendPhoto", chat_id: chat_id, photo: photo_url, caption: film.title)
+      Telegram.Api.request(token, "sendPhoto", chat_id: chat_id, photo: photo_url, caption: film.title)
+    end)
   end
 end
