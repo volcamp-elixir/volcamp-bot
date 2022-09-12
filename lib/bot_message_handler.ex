@@ -7,10 +7,10 @@ defmodule Volcamp.Bot.MessageHandler do
   end
 
   def handle_message("action", chat_id) do
-    #fetch via API
-    spawn(fn -> get_and_send_photo('IMAGE_URL', chat_id) end)
 
-    "Cool un film d'action, j'ai trouvé un truc, je t'envoie la photo."
+    get_and_send_photo(chat_id)
+
+    "Voici le film que je peux te proposer"
   end
 
   def handle_message(_, _) do
@@ -18,15 +18,12 @@ defmodule Volcamp.Bot.MessageHandler do
   end
 
 
-  def get_and_send_photo(url, chat_id) do
-    :timer.sleep(5000)
+  def get_and_send_photo(chat_id) do
     token = Application.get_env(:volcamp_bot, :token)
 
-    #TODO
-    #{:ok, resp} = :httpc.request(:get, {url, []}, [], [body_format: :binary])
-    #{{_, 200, 'OK'}, _headers, body} = resp
+    [ film ] = Film.Discover.get_films_list_by_genre("action", 1)
+    photo_url = Film.Cover.get_cover(film)
 
-    Telegram.Api.request(token, "sendPhoto", chat_id: chat_id, photo: {:file, "tmp/photo3.jpg"})
+    Telegram.Api.request(token, "sendPhoto", chat_id: chat_id, photo: photo_url, caption: film.title)
   end
-
 end

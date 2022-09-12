@@ -26,6 +26,7 @@ end
 defmodule Film.Cover do
   @api_url "https://image.tmdb.org/t/p/w500/"
   def get_cover(%Film{} = film) do
+    :timer.sleep(2_000)
     "#{@api_url}#{film.cover}"
   end
 end
