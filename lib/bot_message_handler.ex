@@ -22,15 +22,17 @@ defmodule Volcamp.Bot.MessageHandler do
 
     films
     |> Stream.map(fn film ->
+      IO.inspect("get cover")
       photo_url = Film.Cover.get_cover(film)
       {film, photo_url}
     end)
     |> Task.async_stream(fn {film, photo_url} ->
+      IO.inspect("j'envoie une photo")
       Telegram.Api.request(token, "sendPhoto",
         chat_id: chat_id,
         photo: photo_url,
         caption: film.title
       )
-    end) |> Enum.map(fn {:ok, _result} -> :ok end)
+    end) |> Enum.to_list()
   end
 end
