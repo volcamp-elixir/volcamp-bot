@@ -7,6 +7,9 @@ defmodule Volcamp.Bot.MessageHandler do
     Movie.Discover.get_movies(genre: genre, size: 3)
     |> Enum.map(fn movie ->
       cover = Movie.Cover.get_cover(movie)
+      {cover, movie}
+    end)
+    |> Enum.map(fn {cover, movie} ->
       Volcamp.Bot.send_media(cover, movie.title, chat_id)
     end)
   end
