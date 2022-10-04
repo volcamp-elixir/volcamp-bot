@@ -4,9 +4,11 @@ defmodule Volcamp.Bot.MessageHandler do
   end
 
   def handle_message("/movie" <> genre, chat_id) do
-    [movie] = Movie.Discover.get_movies(genre: genre)
-    cover = Movie.Cover.get_cover(movie)
-    Volcamp.Bot.send_media(cover, movie.title, chat_id)
+    Movie.Discover.get_movies(genre: genre, size: 3)
+    |> Enum.map(fn movie ->
+      cover = Movie.Cover.get_cover(movie)
+      Volcamp.Bot.send_media(cover, movie.title, chat_id)
+    end)
   end
 
   def handle_message(_message, chat_id) do
