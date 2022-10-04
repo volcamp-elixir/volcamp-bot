@@ -5,7 +5,7 @@ defmodule Volcamp.Bot.MessageHandler do
 
   def handle_message("/movie" <> genre, chat_id) do
     Movie.Discover.get_movies(genre: genre, size: 3)
-    |> Enum.map(fn movie ->
+    |> Stream.map(fn movie ->
       cover = Movie.Cover.get_cover(movie)
       {cover, movie}
     end)
