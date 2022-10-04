@@ -1,4 +1,8 @@
 defmodule Volcamp.Bot.MessageHandler do
+  def handle_message("/moviefunny", chat_id) do
+    handle_message("/moviecomedy", chat_id)
+  end
+
   def handle_message("/movie" <> genre, chat_id) do
     [movie] = Movie.Discover.get_movies(genre: genre)
     cover = Movie.Cover.get_cover(movie)
