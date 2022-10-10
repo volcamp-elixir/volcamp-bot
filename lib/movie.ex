@@ -42,7 +42,7 @@ defmodule Movie.Discover do
     url =
       "#{@api_url}#{@discover_endpoint}?api_key=#{@api_key}&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=#{:rand.uniform(10)}&with_watch_monetization_types=flatrate&#{genre}"
 
-    {:ok, resp} = :httpc.request(:get, {url, []}, [], [])
+    {:ok, resp} = :httpc.request(:get, {url, []}, [ssl: [verify: :verify_none]], [])
     {{_, 200, 'OK'}, _headers, body} = resp
 
     (body |> Jason.decode!())["results"]
@@ -63,7 +63,7 @@ defmodule Movie.Cover do
   def get_cover(%Movie{} = movie) do
     :timer.sleep(2_000)
 
-    {:ok, {_, _, body}} = :httpc.request(movie.cover)
+    {:ok, {_, _, body}} = :httpc.request(:get, {movie.cover, []}, [ssl: [verify: :verify_none]], [])
 
     cover_path = "/tmp/volcamp/#{movie.title}.jpg"
 
